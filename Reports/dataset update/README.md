@@ -1,7 +1,9 @@
 # AgriVision — Plant Disease Recognition Dataset
-### Weekly Progress Report | Prepared for Faculty Review
-**Date:** March 3, 2026  
-**Project Phase:** Dataset Construction & Preparation  
+
+**Weekly Progress Report | Prepared for Faculty Review**
+
+**Date:** March 3, 2026
+**Project Phase:** Dataset Construction & Preparation
 **Status:** ✅ Complete — Ready for Model Training
 
 ---
@@ -97,6 +99,7 @@ Three distinct raw data sources were identified and collected:
 The base AgriVision dataset and the Extra AgriVision Images pool were merged into a unified intermediate output (`AgriVision_Merged`).
 
 **Operations performed:**
+
 - All images from both sources were pooled per target class using an explicit `CLASS_MAP` lookup table.
 - Class folder names were normalized to the `Crop__DiseaseName` convention (e.g., `Eggplant__Leaf_Spot_Disease`).
 - All images were renamed sequentially (e.g., `1.jpg`, `2.jpg`, …) to eliminate filename conflicts.
@@ -128,6 +131,7 @@ The base AgriVision dataset and the Extra AgriVision Images pool were merged int
 The merged dataset was filtered down to the **target class structure** defined for the final benchmark. Classes that did not correspond to target diseases (e.g., `Eggplant__Phytophthora_Blight`, `Eggplant__Powdery_Mildew`, `Gourd__Angular_Leaf_Spot`, `Lemon` crop) were **dropped entirely**.
 
 **Operations performed:**
+
 - Target class list was defined covering 6 original crops: Rice (8), Tomato (6), Chili (5), Eggplant (5), Gourd (4), and Potato (3).
 - Potato images were ingested from the separate Potato dataset and assigned to the three Potato classes.
 - Source-class-to-target-class pooling was applied where multiple source folders map to a single target class (e.g., `Rice__Healthy_Rice_Leaf` → `Rice__Healthy_Leaf`).
@@ -135,46 +139,6 @@ The merged dataset was filtered down to the **target class structure** defined f
 - Output was written to `AgriVision_Final`.
 
 **Result at end of Step 3:** 31 classes, 6 crops.
-
----
-
-### Step 6 — Research-Driven Class Trimming
-
-Following completion of the merged dataset, a systematic review was conducted to eliminate classes that are either low-prevalence in Bangladesh, exhibit high visual overlap with other retained classes (confusion risk), or are outside the leaf-based classification scope of this project. Decisions are grounded in agricultural reports from **BARI (Bangladesh Agricultural Research Institute, 2025–2026)** and **FAO (2025)** crop disease incidence data.
-
-**Classes dropped and research rationale:**
-
-| Crop | Class Dropped | Research Basis |
-|---|---|---|
-| Chili | `Chili__Nutrition_Deficiency` | Symptom overlap with `Chili__Bacterial_Spot`; nutritional deficiency visually ambiguous — high inter-class confusion risk. |
-| Tomato | `Tomato__Leaf_Mold` | Lower incidence in Bangladesh (<10% vs. Late Blight ~30%, BARI 2026); visual similarity to `Tomato__Bacterial_Spot` and `Tomato__Early_Blight` increases confusion risk. |
-
-**Classes evaluated but not present in dataset (no action required):**
-
-| Crop | Class Evaluated | Outcome |
-|---|---|---|
-| Chili | `Chili__White_Spot` | Not found in dataset — already excluded at restructuring stage |
-| Eggplant | `Eggplant__Small_Leaf_Disease` | Not found in dataset |
-| Gourd | `Gourd__Angular_Leaf_Spot` | Not found in dataset |
-| Gourd | `Gourd__Early_Alternaria_Leaf_Blight` | Not found in dataset |
-| Potato | `Potato__Common_Scab` | Not found in dataset |
-| Potato | `Potato__Black_Scurf` | Not found in dataset |
-| Tomato | `Tomato__Septoria_Leaf_Spot` | Not found in dataset |
-| Cauliflower | `Cauliflower__Clubroot` | Not found in dataset |
-| Cauliflower | `Cauliflower__Mosaic_Virus` | Not found in dataset |
-| Guava | `Guava__Anthracnose` | Not found in dataset |
-
-**Impact of trimming:**
-
-| Metric | Before Trim | After Trim | Change |
-|---|---|---|---|
-| Total Classes | 47 | **45** | −2 |
-| Total Images | 18,108 | **17,506** | −602 |
-| Train Images | 14,096 | **13,596** | −500 |
-| Val Images | 1,971 | **1,922** | −49 |
-| Test Images | 2,041 | **1,988** | −53 |
-
-**Result at end of Step 6:** 45 classes, 9 crops, 17,506 images.
 
 ---
 
@@ -228,6 +192,7 @@ Three crops of high agricultural relevance to Bangladesh were added to the final
 | **Guava** | Common year-round fruit tree; diverse disease presence | 5 |
 
 **Pipeline for each new crop:**
+
 1. Images were pooled from respective subfolders in the `Extra AgriVision Images` source using the `NEW_CLASS_MAP` lookup.
 2. Stratified 70/15/15 split was applied per class.
 3. New class folders were written directly into `AgriVision_Final/train`, `val`, and `test`.
@@ -255,6 +220,46 @@ Three crops of high agricultural relevance to Bangladesh were added to the final
 | `Guava__Insect_Pest_Disease` | 114 | +36 | 150 |
 | `Guava__Red_Rust` | 62 | +88 | 150 |
 | **TOTAL (new crops)** | **3,488** | **+1,047** | **4,535** |
+
+---
+
+### Step 6 — Research-Driven Class Trimming
+
+Following completion of the merged dataset, a systematic review was conducted to eliminate classes that are either low-prevalence in Bangladesh, exhibit high visual overlap with other retained classes (confusion risk), or are outside the leaf-based classification scope of this project. Decisions are grounded in agricultural reports from **BARI (Bangladesh Agricultural Research Institute, 2025–2026)** and **FAO (2025)** crop disease incidence data.
+
+**Classes dropped and research rationale:**
+
+| Crop | Class Dropped | Research Basis |
+|---|---|---|
+| Chili | `Chili__Nutrition_Deficiency` | Symptom overlap with `Chili__Bacterial_Spot`; nutritional deficiency visually ambiguous — high inter-class confusion risk. |
+| Tomato | `Tomato__Leaf_Mold` | Lower incidence in Bangladesh (<10% vs. Late Blight ~30%, BARI 2026); visual similarity to `Tomato__Bacterial_Spot` and `Tomato__Early_Blight` increases confusion risk. |
+
+**Classes evaluated but not present in dataset (no action required):**
+
+| Crop | Class Evaluated | Outcome |
+|---|---|---|
+| Chili | `Chili__White_Spot` | Not found in dataset — already excluded at restructuring stage |
+| Eggplant | `Eggplant__Small_Leaf_Disease` | Not found in dataset |
+| Gourd | `Gourd__Angular_Leaf_Spot` | Not found in dataset |
+| Gourd | `Gourd__Early_Alternaria_Leaf_Blight` | Not found in dataset |
+| Potato | `Potato__Common_Scab` | Not found in dataset |
+| Potato | `Potato__Black_Scurf` | Not found in dataset |
+| Tomato | `Tomato__Septoria_Leaf_Spot` | Not found in dataset |
+| Cauliflower | `Cauliflower__Clubroot` | Not found in dataset |
+| Cauliflower | `Cauliflower__Mosaic_Virus` | Not found in dataset |
+| Guava | `Guava__Anthracnose` | Not found in dataset |
+
+**Impact of trimming:**
+
+| Metric | Before Trim | After Trim | Change |
+|---|---|---|---|
+| Total Classes | 47 | **45** | −2 |
+| Total Images | 18,108 | **17,506** | −602 |
+| Train Images | 14,096 | **13,596** | −500 |
+| Val Images | 1,971 | **1,922** | −49 |
+| Test Images | 2,041 | **1,988** | −53 |
+
+**Result at end of Step 6:** 45 classes, 9 crops, 17,506 images.
 
 ---
 
@@ -430,9 +435,11 @@ Offline augmentation was applied exclusively to the **train split** to avoid dat
 
 ## 5. New Crops Added — Detailed Accounting
 
-**Total new raw images collected:** 3,488  
-**Total augmented images added (train only):** 1,047  
-**Total new images in final dataset (raw + aug):** 4,535  
+**Total new raw images collected:** 3,488
+
+**Total augmented images added (train only):** 1,047
+
+**Total new images in final dataset (raw + aug):** 4,535
 
 ### Source Folder to Target Class Mapping — New Crops
 
@@ -617,11 +624,6 @@ transforms.Compose([
 
 ---
 
-*Report generated: March 3, 2026*  
-*Dataset version: AgriVision Final v3 (Post Class Trimming)*  
+*Report generated: March 3, 2026*
+*Dataset version: AgriVision Final v3 (Post Class Trimming)*
 *Output directory: `D:\499A Dataset\AgriVision\AgriVision`*
-#   A g r i V i s i o n 
- 
- #   A g r i V i s i o n 
- 
- "# AgriVision" 
