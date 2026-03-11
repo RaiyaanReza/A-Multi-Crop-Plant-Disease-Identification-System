@@ -345,6 +345,7 @@ print(f"Top-5: {metrics.top5:.4f}")
 
 ```
 Universal 45 Class/
+agri_y26_done/
 │
 ├── models/
 │   ├── best.pt                          # Best checkpoint (highest val accuracy)
@@ -363,6 +364,7 @@ Universal 45 Class/
 │   ├── per_class_accuracy.csv           # Per-class accuracy breakdown
 │   └── overall_metrics.txt             # Top-1, Top-5, test set size
 │
+├── yolo26s_classification_universal.ipynb  # Full training & evaluation notebook
 └── README.md
 ```
 
